@@ -30,15 +30,19 @@ module Rocket
     end
   end
 
-  class Canadianize
-    def initialize(app)
-      @app = app
-    end
+  # class Canadianize
+    # def initialize(app)
+      # @app = app
+    # end
 
-    def call(env)
-      status, headers, content = @app.call(env)
-      content[0] += ", eh?"
-      [status, headers, content]
-    end
-  end
+    # def call(env)
+      # # Add an example to the headers
+      # env["rack.canadianized"] = "Added canada flavored response"
+
+      # # Add an example to the body of the response
+      # status, headers, content = @app.call(env)
+      # content[0] += ", eh?"
+      # [status, headers, content]
+    # end
+  # end
 end

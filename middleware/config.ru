@@ -1,4 +1,4 @@
 require './app'
 
-use Rocket::Canadianize
+# use Rocket::Canadianize
 run App
