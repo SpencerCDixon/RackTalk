@@ -4,11 +4,11 @@ App = Rocket::Application.new
 
 App.routes do
   get '/' do
-    "hello"
+    erb :slides
   end
 
-  get '/rocket' do
-    erb :example, { title: 'rocket title' }
+  get '/slides' do
+    haml :slides
   end
 end
 

@@ -1,6 +1,7 @@
 require 'pry'
 require 'erubis'
 require 'rack'
+require 'haml'
 
 module Rocket
   class Application
@@ -19,6 +20,10 @@ module Rocket
       else
         not_found
       end
+    end
+
+    def not_found
+      [404, { 'Content-Type' => 'text/html' }, []]
     end
 
     def find_route(env)
@@ -40,27 +45,43 @@ module Rocket
     end
 
     def erb(view, locals = {})
+      if layout = File.read("views/layout.html.erb")
+        render_layout(layout) do
+          render_erb_view(view, locals)
+        end
+      else
+        render_erb_view(view, locals)
+      end
+    end
+
+    def haml(view, locals = {})
+      if layout = File.read("views/layout.html.erb")
+        render_layout(layout) do
+          render_haml_view(view, locals)
+        end
+      else
+        render_haml_view(view, locals)
+      end
+    end
+
+    def render_erb_view(view, locals)
       filename = File.join("views", "#{view}.html.erb")
       template = File.read filename
-      eruby = Erubis::Eruby.new(template)
-      eruby.result(locals)
+      Erubis::Eruby.new(template).evaluate(locals)
     end
 
-    def not_found
-      [404, { 'Content-Type' => 'text/html' }, []]
-    end
-  end
-
-  class Router
-    attr_reader :rules
-    HTTP_VERBS = [:get, :post, :patch, :put, :delete]
-
-    def initialize
-      @rules = []
+    def render_haml_view(view, locals)
+      filename = File.join("views", "#{view}.html.haml")
+      template = File.read filename
+      Haml::Engine.new(template).render(self, locals)
     end
 
-    def get(path, options)
-      @rules << { path: path }
+    def render_layout(layout)
+      Erubis::Eruby.new(layout).result(binding)
+    end
+
+    def get_binding
+      return binding
     end
   end
 end
