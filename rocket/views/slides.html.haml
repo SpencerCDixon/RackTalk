@@ -38,8 +38,12 @@
     .col-md-8.col-md-offset-2
       %ul
         %li.slide Learning HTTP == High Leverage
+        %li.slide HTTP will outlive whatever framework you start off using
         %li.slide Write better Web apps
         %li.slide Debug a lot quicker
+        %li.slide
+          Hack your friend's apps
+          %i.fa.fa-smile-o
 
 -# Part One
 
@@ -55,12 +59,14 @@
           %li.slide Uniform <span class='red'>Resource</span> Locator <small>(don't need to memorize)</small>
           %li.slide What are some examples of Resources?
           %ul.slide
-            %li Images
-            %li Files
-            %li Videos
-            %li Pages of HTML
-            %li CSS
-            %li JS
+            .slide
+              %li Images
+              %li Files
+              %li Videos
+            .slide
+              %li User
+              %li Blog Post
+              %li Friend list
 
 .slide
   .row.text-center
@@ -77,7 +83,8 @@
       .slide
         .circle.red-background
         %h3.inline URL Scheme: http vs. https
-        %p.small.slide What are some other Schemes you've seen?
+        %p.sub-bullet.slide What are some other Schemes you've seen?
+        %p.sub-bullet.slide ftp, smtp, mailto, etc.
 
       .slide
         %br
@@ -88,9 +95,355 @@
         %br
         .circle.gray-background
         %h3.inline Url Path: where to find resource
+        %p.sub-bullet.slide Dynamic vs. static resources
+        %p.sub-bullet.slide Static: <code>/logo.png</code>
+        %p.sub-bullet.slide Dynamic: <code>/posts/1</code>
 
+.slide
+  .row.text-center
+    %h3 Part 1 - HTTP Basics & Review
 
+  .row
+    .col-md-8.col-md-offset-2
+      .slide
+        %p Default port set to <code>80</code> - changes in development: <code>4567</code> Sinatra, <code>3000</code> Rails
+      %h3.m50.slide
+        %span https://
+        %span github.com/
+        %span SpencerCDixon/Rails-tricks
+        %span.scheme #table-of-contents
 
+  .row.m20
+    .col-md-8.col-md-offset-2
+      .slide
+        .circle.red-background
+        %h3.inline # is called a <code>fragment</code>
+        %p.sub-bullet.slide What are fragments used for?
+        %p.sub-bullet.slide Anchoring to content on a page / javascript
 
+      %h3.slide.m50
+        %span https://
+        %span github.com/
+        %span SpencerCDixon
+        %span.host ?repositories=all
+
+      .slide
+        .circle.black-background
+        %h3.inline ? is a <code>query</code> also known as <code>query string</code>
+        %p.sub-bullet.slide What are query strings used for?
+        %p.sub-bullet.slide Parsing params in HTTP requests
+
+.slide
+  .row.text-center
+    %h3 Part 1 - HTTP Basics & Review
+
+  .row
+    .col-md-8.col-md-offset-2
+      %h2.slide HTTP Headers
+      %ul
+        %li.slide
+          <code>Content-Type</code>
+          %i.fa.fa-arrow-right
+          way for client/server to identify what type of resource
+          %ul
+            %li.small.slide Imagine if browser tried to render image as text!
+        %li.slide
+          <code>MIME</code>
+          %i.fa.fa-arrow-right
+          Multi-purpose Internet Mail Extensions (don't need to memorize)
+          %ul
+            %li.small.slide Resource label - <code>text/html</code>, <code>text/css</code>, etc.
+            %li.small.slide Generally explain the extension of the resource (.css, .pdf, .png, etc)
+
+        %li.slide
+          <code>Content Negotiation</code>:
+          %ul
+            %li.small.slide
+              when there are multiple representations of the same resource
+              servers need a way to identify which one you want.
+
+.slide
+  .row.text-center
+    %h3 Content Negotiation
+
+  .row.slide
+    .col-md-6
+      %h3.text-center Reddit as HTML
+      %img.img-comparison(src="/images/reddit-html.png")
+    .col-md-6
+      %h3.text-center Reddit as JSON
+      %img.img-comparison(src="/images/reddit-json.png")
+
+.slide
+  .row.text-center
+    %h3 Request/Response Lifecycle
+
+  .slide.m50
+    %img.img-responsive(src="/images/HTTP-cycle.png")
+
+.slide
+  .row.text-center
+    %h2 Request Methods
+
+  .row
+    .col-md-8.col-md-offset-2
+      %ul
+        %li.slide
+          GET -
+          %span.label.label-success safe
+          %ul
+            %li.small Doesn't do anything dangerous like destroy resource, submit credit card, or create user
+            %li.small Used for retrieving a resource and never alter the state of the resource.
+        %li.slide
+          POST -
+          %span.label.label-danger unsafe
+          %ul
+            %li.small Typically changes something on the server.  Updates an accout, submits an order, or creates a user.
+            %li.small Why you get warning when trying to refresh page.
+            %li.small PRG pattern - POST, REDIRECT, GET.
+        %li.slide PUT/PATCH
+        %li.slide DELETE
+
+.slide
+  .row
+    .col-md-8.col-md-offset-2
+      .row
+        .col-md-6
+          %h2.red Request
+          %p
+            [METHOD] [URL] [HTTP VERSION]
+            <br>
+            [HEADERS]
+            <br>
+            <br>
+
+            [BODY]
+          %hr
+          %p
+            GET https://github.com HTTP/1.1
+            %br
+            Host: github.com
+
+        .col-md-6
+          %h2.black Response
+          %p
+            [VERSION] [STATUS] [REASON]
+            <br>
+            [HEADERS]
+            <br>
+            <br>
+
+            [BODY]
+          %hr
+          %p
+            HTTP/1.1 200 OK
+            %br
+            Content-Length: 17512
+            %br
+
+            HTML here
+      .row.slide
+        .alert.red-background
+          %h3 Not important to memorize this.  Most libraries abstract it away.  Important to understand the request METHODS and response STATUS codes.
+
+.slide
+  .row.text-center
+    %h3 Response Status codes
+
+  .row
+    .col-md-8.col-md-offset-2
+      %ul
+        %li 100 - 199: Informational
+        %li 200 - 299: Successful!
+        %li 300 - 399: Redirection
+        %li 400 - 499: Client Error (maybe a URL typo)
+        %li 500 - 599: Server Error (logic or server error. NoMethodError)
+
+-# Part 2
+.slide
+  .row.text-center
+    %h3 Part 2:  Introduction to Rack & Middleware
+
+  .row
+    .col-md-10.col-md-offset-1
+      .row
+        .col-md-6
+          %h3 What is Rack?
+          %ul
+            %li Rack provides a minimal interface between webservers that support Ruby and Ruby frameworks.
+            %li Glue that holds together frameworks like Sinatra and Rails
+            %li Abstracts away <code>Net::HTTP</code> for developers
+        .col-md-6
+          %img.img-responsive(src="/images/rack-logo.png")
+          %pre.slide
+            %code.ruby
+              :preserve
+                # my_rack_app.rb
+                require 'rack'
+
+                app = Proc.new do |env|
+                    ['200', {'Content-Type' => 'text/html'}, ['A barebones rack app.']]
+                end
+
+                Rack::Handler::WEBrick.run app
+
+.slide
+  .row.text-center
+    %h3 How to use?  Only 2 steps!
+
+  .row
+    .col-md-10.col-md-offset-1
+      .row
+        .col-md-4
+          %ul
+            %li Provide rack with object that responds to <code>#call</code>
+            %li Make sure call returns an Array with 3 things:
+            %ul
+              %li Status Code
+              %li HTTP Headers
+              %li Response Body (must respond to <code>#each</code>)
+        .col-md-8
+          .m50
+            %pre.slide.medium
+              %code.ruby
+                :preserve
+                  # my_rack_app.rb
+                  require 'rack'
+
+                  app = Proc.new do |env|
+                      ['200', {'Content-Type' => 'text/html'}, ['Body']]
+                  end
+
+                  Rack::Handler::WEBrick.run app
+      .slide
+        %hr
+        %h3.text-center Code Example 1 <code>hello_world.rb</code> & <code>Procs</code>
+
+.slide
+  .row.text-center
+    %h3 Using Rackup aka <code>config.ru</code>
+
+  .row
+    .col-md-10.col-md-offset-1
+      .row
+        %ul
+          %li DSL for building Rack Apps
+          %li Provides command line tool for specifying port and more
+          %li Special method <code>run</code> to get app going
+      .row
+        .m50
+          %pre.slide.medium
+            %code.ruby
+              :preserve
+                # config.ru
+
+                run Proc.new { |env| ['200', {'Content-Type' => 'text/html'}, ['get rack\'d']] }
+      .slide
+        %hr
+        %h3.text-center Code Example 2 <code>rackup</code> & <code>Rocket</code>
+
+.slide
+  .row.text-center
+    %h3 Rack Middleware
+
+  .row
+    .col-md-10.col-md-offset-1
+      .row
+        .col-md-6
+          %ul
+            %li Customize the way your request/response behaves
+            %li Sits between client & server, thus middleware.
+            %li Used for:
+            %ul
+              %li Logging
+              %li User Authentication
+              %li Caching
+              %li Mounting apps inside of other apps
+        .col-md-6
+          %img.img-responsive(src="/images/middleware.png")
+          %img.img-responsive.m20(src="/images/middleware-2.png")
+
+      .slide
+        %hr
+        %h3.text-center Code Example 3 <code>middleware</code>
+
+.slide
+  .row.text-center
+    %h2 Handling Routes
+
+  .row
+    .col-md-10.col-md-offset-1
+      %h3 Basic
+      %ul
+        %li Need a way to match <code>URL PATH</code> with response body
+
+      %h3 Advanced
+      %ul
+        %li Need a way to match <code>HTTP Methods</code> (GET, POST, etc.) to responses
+
+  .slide
+    %hr
+    %h3.text-center Code Example 4 <code>routing</code> & <code>instance_eval</code>
+
+.slide
+  .row.text-center
+    %h2 View Rendering
+
+  .row
+    .col-md-10.col-md-offset-1
+      %h3 Basic
+      %ul
+        %li Pick some sort of templating language: ERB, Haml, Slim, etc.
+        %li Use templating language to render string of HTML to put in response body
+        %li Figure out how to pass variables to the template so they can be used
+
+      %h3 Advanced
+      %ul
+        %li Figure out how to render a layout so templates can by DRY
+
+  .slide
+    %hr
+    %h3.text-center Code Example 5 <code>view_rendering</code>
+
+.slide
+  .row.text-center
+    %h2 Final Thoughts
+
+  .row
+    .col-md-10.col-md-offset-1
+      %ul
+        %li.slide Rack is an extremely powerful tool worth learning
+        %li.slide Focus on mastering HTTP Methods and Response Status Codes
+        %li.slide Start becoming comfortable with the idea of a <code>Resource</code>
+        %li.slide Ready for something really cool...!?!?!
+      %hr
+      .slide
+        %h3 This presentation was built with:
+        %ul
+          %li Ruby on Rockets!!!!
+          %li Deck.js
+          %li Highlight.js
+          %li Bootstrap
+
+.slide
+  .row.text-center
+    %h2 Thank You & Questions
+
+  .row
+    .col-md-8.col-md-offset-2
+      .closing
+        %ul.closing-tags.m50
+          %li
+            %i.fa.fa-code
+            https://www.github.com/SpencerCDixon/RackTalk
+          %li
+            %i.fa.fa-github
+            github.com/SpencerCDixon
+          %li
+            %i.fa.fa-twitter
+            @SpencerCDixon
+          %li
+            %i.fa.fa-envelope
+            spencercdixon@gmail.com
 
 
