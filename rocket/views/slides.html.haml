@@ -1,6 +1,6 @@
 -# Introduction
 .slide
-  .row.text-center
+  .row.text-center.m50
     %h1 Ruby On Rockets
     %h3
       %em Spencer Dixon
@@ -193,13 +193,13 @@
           %span.label.label-success safe
           %ul
             %li.small Doesn't do anything dangerous like destroy resource, submit credit card, or create user
-            %li.small Used for retrieving a resource and never alter the state of the resource.
+            %li.small Used for retrieving a resource and never alters the state of the resource
         %li.slide
           POST -
           %span.label.label-danger unsafe
           %ul
             %li.small Typically changes something on the server.  Updates an accout, submits an order, or creates a user.
-            %li.small Why you get warning when trying to refresh page.
+            %li.small unsafe == reason you get warning when trying to refresh page.
             %li.small PRG pattern - POST, REDIRECT, GET.
         %li.slide PUT/PATCH
         %li.slide DELETE
@@ -296,7 +296,7 @@
       .row
         .col-md-4
           %ul
-            %li Provide rack with object that responds to <code>#call</code>
+            %li Provide rack with an object that responds to <code>#call</code>
             %li Make sure call returns an Array with 3 things:
             %ul
               %li Status Code
@@ -393,8 +393,8 @@
     .col-md-10.col-md-offset-1
       %h3 Basic
       %ul
-        %li Pick some sort of templating language: ERB, Haml, Slim, etc.
-        %li Use templating language to render string of HTML to put in response body
+        %li Pick some sort of templating engine: ERB, Haml, Slim, etc.
+        %li Use templating engine to render string of HTML to put in response body
         %li Figure out how to pass variables to the template so they can be used
 
       %h3 Advanced
@@ -428,8 +428,9 @@
 .slide
   .row.text-center
     %h2 Thank You & Questions
+    %hr
 
-  .row
+  .row.text-center
     .col-md-8.col-md-offset-2
       .closing
         %ul.closing-tags.m50
@@ -445,5 +446,9 @@
           %li
             %i.fa.fa-envelope
             spencercdixon@gmail.com
+          %br
+          %li
+            .alert.red-background
+              Coming in 12/2 for Mentor Night.  Lets code together! :-)
 
 
