@@ -21,12 +21,12 @@ module Rocket
       instance_eval(&block)
     end
 
-    def get(path, &block)
-      router << { path: path, body: block }
+    def get(path, &response_body)
+      router << { path: path, body: response_body }
     end
 
     def not_found
-      [404, { 'Content-Type' => 'text/html' }, []]
+      [404, { 'Content-Type' => 'text/html' }, ['Page is not there']]
     end
   end
 end

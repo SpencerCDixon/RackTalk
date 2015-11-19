@@ -23,17 +23,17 @@ module Rocket
     end
 
     def not_found
-      [404, { 'Content-Type' => 'text/html' }, []]
+      [404, { 'Content-Type' => 'text/html' }, ["<h1>Page doesn't exist!</h1>"]]
     end
 
     def find_route(env)
       path = env["PATH_INFO"]
 
-      route = router.find do |route|
+      current_route = router.find do |route|
         route[:path] == path
       end
 
-      route || false
+      current_route || false
     end
 
     def routes(&block)

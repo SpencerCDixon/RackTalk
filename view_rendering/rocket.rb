@@ -25,15 +25,15 @@ module Rocket
       end
     end
 
-    # def find_route(env)
-      # path = env["PATH_INFO"]
+    def find_route(env)
+      path = env["PATH_INFO"]
 
-      # route = router.find do |route|
-        # route[:path] == path
-      # end
+      route = router.find do |route|
+        route[:path] == path
+      end
 
-      # route || false
-    # end
+      route || false
+    end
 
     def routes(&block)
       instance_eval(&block)
@@ -43,12 +43,12 @@ module Rocket
       router << { path: path, body: block }
     end
 
-    # def erb(view, locals = {})
-      # filename = File.join("views", "#{view}.html.erb")
-      # template = File.read filename
-      # eruby = Erubis::Eruby.new(template)
-      # eruby.result(locals)
-    # end
+    def erb(view, locals = {})
+      filename = File.join("views", "#{view}.html.erb")
+      template = File.read filename
+      eruby = Erubis::Eruby.new(template)
+      eruby.result(locals)
+    end
 
     def not_found
       [404, { 'Content-Type' => 'text/html' }, []]

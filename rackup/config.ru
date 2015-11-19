@@ -2,6 +2,6 @@ require 'pry'
 require './rocket'
 
 app = Rocket.new
-# binding.pry
+binding.pry
 
 run app
